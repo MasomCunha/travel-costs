@@ -1,0 +1,923 @@
+{
+  "members": [
+    "Márcio",
+    "Manel",
+    "Bruno",
+    "Luciana",
+    "Mariana",
+    "Zé"
+  ],
+  "routes": [
+    {
+      "name": "Braga - Famalicão",
+      "fuelPrice": 1.65,
+      "totalKm": 100,
+      "consumptionPer100": 6,
+      "tolls": 7.6,
+      "avgPeople": 4.5
+    }
+  ],
+  "trips": [
+    {
+      "date": "2024-03-19",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2024-04-02",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2024-10-10",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2024-11-05",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2024-11-21",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2024-12-05",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-02",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-28",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Márcio",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-16",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-24",
+      "driver": "Manel",
+      "passengers": [
+        {
+          "name": "Márcio",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-04",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-06",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-11",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Mariana",
+          "type": "MEIA_BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-20",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Márcio",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-11",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-13",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-25",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-04-10",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-07",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-13",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-27",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-03",
+      "driver": "Manel",
+      "passengers": [
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-16",
+      "driver": "Manel",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-01",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-29",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-23",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-07",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-21",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-04",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-18",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-18",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-02",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-16",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-13",
+      "driver": "Márcio",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-27",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-10",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-24",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-10",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-16",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-26",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-07",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Mariana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-21",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-05",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-05",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Bruno",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-19",
+      "driver": "Mariana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        },
+        {
+          "name": "Luciana",
+          "type": "BOLEIA"
+        },
+        {
+          "name": "Zé",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-02",
+      "driver": "Luciana",
+      "passengers": [
+        {
+          "name": "Manel",
+          "type": "BOLEIA_EUR"
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "date": "2024-05-02",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 15.9,
+      "method": "OTHER"
+    },
+    {
+      "date": "2024-12-16",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 11.93,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-01-02",
+      "payer": "Bruno",
+      "payee": "Márcio",
+      "amount": 20.87,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-01-08",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 5.64,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-01-08",
+      "payer": "Bruno",
+      "payee": "Márcio",
+      "amount": 5.91,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-02-24",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 7.36,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-02-24",
+      "payer": "Manel",
+      "payee": "Luciana",
+      "amount": 5.83,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-03-26",
+      "payer": "Mariana",
+      "payee": "Manel",
+      "amount": 5.61,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-03-26",
+      "payer": "Mariana",
+      "payee": "Luciana",
+      "amount": 11.23,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-03-28",
+      "payer": "Mariana",
+      "payee": "Márcio",
+      "amount": 16.84,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-06-17",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 8.91,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-06-17",
+      "payer": "Manel",
+      "payee": "Luciana",
+      "amount": 16.28,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-07-14",
+      "payer": "Mariana",
+      "payee": "Márcio",
+      "amount": 5.27,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-07-14",
+      "payer": "Mariana",
+      "payee": "Manel",
+      "amount": 10.97,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-07-14",
+      "payer": "Mariana",
+      "payee": "Luciana",
+      "amount": 10.88,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-08-11",
+      "payer": "Bruno",
+      "payee": "Luciana",
+      "amount": 22.75,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-11-05",
+      "payer": "Manel",
+      "payee": "Luciana",
+      "amount": 16.47,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-11-05",
+      "payer": "Manel",
+      "payee": "Márcio",
+      "amount": 0.37,
+      "method": "OTHER"
+    },
+    {
+      "date": "2025-11-05",
+      "payer": "Manel",
+      "payee": "Mariana",
+      "amount": 5.44,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-01-30",
+      "payer": "Zé",
+      "payee": "Luciana",
+      "amount": 15.56,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-01-30",
+      "payer": "Zé",
+      "payee": "Mariana",
+      "amount": 7.78,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-05-16",
+      "payer": "Zé",
+      "payee": "Luciana",
+      "amount": 11.66,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-05-16",
+      "payer": "Zé",
+      "payee": "Mariana",
+      "amount": 15.55,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-06-08",
+      "payer": "Manel",
+      "payee": "Luciana",
+      "amount": 19.75,
+      "method": "OTHER"
+    },
+    {
+      "date": "2026-06-08",
+      "payer": "Manel",
+      "payee": "Mariana",
+      "amount": 26.7,
+      "method": "OTHER"
+    }
+  ]
+}

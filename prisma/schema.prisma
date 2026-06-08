@@ -1,0 +1,137 @@
+// PostgreSQL (Render em produção; local via docker-compose).
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String
+  phone        String? // telemóvel pessoal (MB WAY) — sincronizado com o Member ligado
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  memberships  Membership[]
+  members      Member[] // Members (participantes) ligados a este login, em vários grupos
+}
+
+model Group {
+  id              String           @id @default(cuid())
+  name            String
+  createdAt       DateTime         @default(now())
+  memberships     Membership[]
+  members         Member[]
+  routes          Route[]
+  trips           Trip[]
+  payments        Payment[]
+  initialBalances InitialBalance[]
+}
+
+model Membership {
+  id      String @id @default(cuid())
+  userId  String
+  groupId String
+  role    String @default("MEMBER") // OWNER | MEMBER
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId])
+}
+
+// Participante do rateio. Pode ou não estar ligado a um User (login).
+model Member {
+  id      String  @id @default(cuid())
+  groupId String
+  name    String
+  phone   String? // nº para receber MB WAY
+  active  Boolean @default(true) // false = removido (soft-delete), preserva histórico
+  userId  String?
+  group   Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  tripsAsDriver    Trip[]           @relation("Driver")
+  rides            TripPassenger[]
+  paymentsMade     Payment[]        @relation("Payer")
+  paymentsReceived Payment[]        @relation("Payee")
+  initialFrom      InitialBalance[] @relation("From")
+  initialTo        InitialBalance[] @relation("To")
+}
+
+model Route {
+  id                String  @id @default(cuid())
+  groupId           String
+  name              String
+  fuelPrice         Float // €/litro
+  totalKm           Float // km ida/volta
+  consumptionPer100 Float // litros/100km
+  tolls             Float // portagens €
+  avgPeople         Float // nº médio de pessoas
+  group             Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  trips             Trip[]
+}
+
+model Trip {
+  id      String   @id @default(cuid())
+  groupId String
+  routeId String
+  date    DateTime
+  driverId String
+  // overrides opcionais dos parâmetros da rota (null => usa o default da rota)
+  fuelPrice         Float?
+  totalKm           Float?
+  consumptionPer100 Float?
+  tolls             Float?
+  avgPeople         Float?
+  createdAt DateTime @default(now())
+
+  group      Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  route      Route           @relation(fields: [routeId], references: [id])
+  driver     Member          @relation("Driver", fields: [driverId], references: [id])
+  passengers TripPassenger[]
+}
+
+model TripPassenger {
+  id          String @id @default(cuid())
+  tripId      String
+  passengerId String
+  type        String // BOLEIA | BOLEIA_EUR | MEIA_BOLEIA | MEIA_BOLEIA_EUR
+  trip        Trip   @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  passenger   Member @relation(fields: [passengerId], references: [id])
+
+  @@unique([tripId, passengerId])
+}
+
+model Payment {
+  id      String   @id @default(cuid())
+  groupId String
+  date    DateTime
+  payerId String
+  payeeId String
+  amount  Float
+  method  String   @default("OTHER") // MBWAY | TRANSFER | CASH | OTHER
+  note    String?
+  createdAt DateTime @default(now())
+
+  group Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  payer Member @relation("Payer", fields: [payerId], references: [id])
+  payee Member @relation("Payee", fields: [payeeId], references: [id])
+}
+
+// Saldos iniciais ("Valores Iniciais" do Excel), por par de membros.
+model InitialBalance {
+  id           String @id @default(cuid())
+  groupId      String
+  fromMemberId String
+  toMemberId   String
+  rides        Float  @default(0) // boleias em espécie que `from` deve a `to`
+  euros        Float  @default(0) // euros que `from` deve a `to`
+  group        Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  from         Member @relation("From", fields: [fromMemberId], references: [id])
+  to           Member @relation("To", fields: [toMemberId], references: [id])
+
+  @@unique([groupId, fromMemberId, toMemberId])
+}
