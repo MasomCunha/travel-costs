@@ -1,10 +1,7 @@
 # Render Blueprint. Em render.com: New + > Blueprint > aponta para este repo.
-# Cria automaticamente a base de dados Postgres e o serviço web, ligando o DATABASE_URL.
-databases:
-  - name: travel-costs-db
-    databaseName: travel_costs
-    plan: free
-
+# NÃO cria base de dados (o free tier do Render só permite uma por conta).
+# Usa um Postgres externo gratuito (ex.: Neon — neon.tech) e define o DATABASE_URL
+# manualmente no dashboard do serviço (Environment).
 services:
   - type: web
     name: travel-costs
@@ -17,9 +14,7 @@ services:
     healthCheckPath: /login
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: travel-costs-db
-          property: connectionString
+        sync: false # definir no dashboard: connection string do Neon (com ?sslmode=require)
       - key: AUTH_SECRET
         generateValue: true
       - key: AUTH_TRUST_HOST

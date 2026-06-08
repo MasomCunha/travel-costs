@@ -27,14 +27,22 @@ Login demo (após o seed): **demo@opt.pt** / **demo1234**.
 
 ## Deploy no Render
 
-O repositório inclui [`render.yaml`](render.yaml) (Blueprint).
+O repositório inclui [`render.yaml`](render.yaml) (Blueprint). Como o free tier do Render
+só dá **uma** base de dados Postgres por conta, este Blueprint **não cria** uma BD — usa
+um Postgres externo gratuito.
 
-1. Faz push deste repo para o GitHub.
-2. No [Render](https://dashboard.render.com): **New +** → **Blueprint** → escolhe o repo.
-3. O Render cria o **Postgres** + o **serviço web** e liga o `DATABASE_URL`
-   automaticamente. O `AUTH_SECRET` é gerado pelo Render.
-4. No primeiro deploy, o `startCommand` corre `prisma migrate deploy` (cria as tabelas).
-5. **Seed (opcional, uma vez):** na shell do serviço web no Render, corre `npm run db:seed`
+1. **Base de dados (Neon):** cria um projeto grátis em [neon.tech](https://neon.tech) e
+   copia a *connection string* (algo como
+   `postgresql://user:pass@ep-xxx.eu-central-1.aws.neon.tech/neondb?sslmode=require`).
+   _Alternativas: [Supabase](https://supabase.com) ou reutilizar a BD atual do Render com
+   um schema separado (`?schema=travel_costs`)._
+2. Faz push deste repo para o GitHub.
+3. No [Render](https://dashboard.render.com): **New +** → **Blueprint** → escolhe o repo.
+   Cria apenas o **serviço web**.
+4. Em **Environment**, define `DATABASE_URL` = a connection string do Neon. O `AUTH_SECRET`
+   é gerado automaticamente.
+5. No primeiro deploy, o `startCommand` corre `prisma migrate deploy` (cria as tabelas).
+6. **Seed (opcional, uma vez):** na shell do serviço web no Render, corre `npm run db:seed`
    para popular com os dados de exemplo. (Não corre automaticamente para não apagar dados.)
 
 Variáveis de ambiente usadas: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_TRUST_HOST=true`.
