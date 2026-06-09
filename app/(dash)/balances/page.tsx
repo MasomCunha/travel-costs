@@ -1,11 +1,25 @@
 import { requireContext } from "@/lib/session";
 import { computeGroupBalances, netDebt } from "@/lib/balances";
 import { eur } from "@/lib/constants";
+import { PayDialog } from "@/components/PayDialog";
 
 export default async function BalancesPage() {
   const ctx = await requireContext();
   const bal = await computeGroupBalances(ctx.group.id);
   const members = bal.members;
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Pagadores de um recebedor: quem deve a `payee` (para o modal de pagamento).
+  function payersOf(payeeId: string) {
+    return members
+      .filter((p) => p.id !== payeeId)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        owed: Math.round(netDebt(bal.owes, p.id, payeeId).euros * 100) / 100, // >0 = `p` deve a `payee`
+      }))
+      .filter((p) => p.owed > 0.005);
+  }
 
   function cell(fromId: string, toId: string, kind: "euros" | "rides") {
     if (fromId === toId) return <td key={toId} className="bg-slate-50" />;
@@ -25,7 +39,15 @@ export default async function BalancesPage() {
     );
   }
 
-  function Matrix({ kind, title }: { kind: "euros" | "rides"; title: string }) {
+  function Matrix({
+    kind,
+    title,
+    actions = false,
+  }: {
+    kind: "euros" | "rides";
+    title: string;
+    actions?: boolean;
+  }) {
     return (
       <section className="card">
         <h2 className="mb-1 font-semibold">{title}</h2>
@@ -41,6 +63,7 @@ export default async function BalancesPage() {
                 {members.map((m) => (
                   <th key={m.id} className="px-3 py-2 text-right">{m.name}</th>
                 ))}
+                {actions && <th className="px-3 py-2 text-right">Ações</th>}
               </tr>
             </thead>
             <tbody>
@@ -51,6 +74,17 @@ export default async function BalancesPage() {
                     {!from.active && <span className="ml-1 text-xs text-slate-400">(rem.)</span>}
                   </td>
                   {members.map((to) => cell(from.id, to.id, kind))}
+                  {actions && (
+                    <td className="px-3 py-2 text-right">
+                      <PayDialog
+                        payeeId={from.id}
+                        payeeName={from.name}
+                        payeePhone={from.phone}
+                        payers={payersOf(from.id)}
+                        today={today}
+                      />
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -64,7 +98,7 @@ export default async function BalancesPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Totais</h1>
 
-      <Matrix kind="euros" title="Saldos em euros (Boleia / Euros)" />
+      <Matrix kind="euros" title="Saldos em euros (Boleia / Euros)" actions />
       <Matrix kind="rides" title="Saldos em boleias (Boleia / Boleia)" />
 
       <section className="card">

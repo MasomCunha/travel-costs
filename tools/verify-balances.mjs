@@ -4,18 +4,20 @@ const prisma = new PrismaClient();
 const WEIGHT = { BOLEIA: 1, MEIA_BOLEIA: 0.5, BOLEIA_EUR: 1, MEIA_BOLEIA_EUR: 0.5 };
 const KIND = { BOLEIA: "rides", MEIA_BOLEIA: "rides", BOLEIA_EUR: "euros", MEIA_BOLEIA_EUR: "euros" };
 
-function valuePerPerson(t) {
-  const fp = t.fuelPrice ?? t.route.fuelPrice;
-  const km = t.totalKm ?? t.route.totalKm;
-  const c = t.consumptionPer100 ?? t.route.consumptionPer100;
-  const to = t.tolls ?? t.route.tolls;
-  const ap = t.avgPeople ?? t.route.avgPeople;
+function valuePerPerson(t, g) {
+  const fp = t.fuelPrice ?? g.fuelPrice;
+  const km = t.totalKm ?? g.totalKm;
+  const c = t.consumptionPer100 ?? g.consumptionPer100;
+  const to = t.tolls ?? g.tolls;
+  const ap = t.avgPeople ?? g.avgPeople;
   return ap ? ((c / 100) * km * fp + to) / ap : 0;
 }
 
+const groups = await prisma.group.findMany();
+const groupById = Object.fromEntries(groups.map((g) => [g.id, g]));
 const members = await prisma.member.findMany();
 const id2name = Object.fromEntries(members.map((m) => [m.id, m.name]));
-const trips = await prisma.trip.findMany({ include: { route: true, passengers: true } });
+const trips = await prisma.trip.findMany({ include: { passengers: true } });
 const payments = await prisma.payment.findMany();
 
 const owes = {}; // owes[from][to] = {rides, euros}
@@ -27,7 +29,7 @@ const add = (f, t, d) => {
   owes[f][t].euros += d.euros ?? 0;
 };
 for (const t of trips) {
-  const v = valuePerPerson(t);
+  const v = valuePerPerson(t, groupById[t.groupId]);
   for (const p of t.passengers) {
     if (KIND[p.type] === "rides") add(p.passengerId, t.driverId, { rides: WEIGHT[p.type] });
     else add(p.passengerId, t.driverId, { euros: WEIGHT[p.type] * v });

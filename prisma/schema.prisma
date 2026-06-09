@@ -17,18 +17,24 @@ model User {
   createdAt    DateTime     @default(now())
   memberships  Membership[]
   members      Member[] // Members (participantes) ligados a este login, em vários grupos
+  createdTrips Trip[]       @relation("TripCreator")
 }
 
+// Um grupo É uma rota: tem os parâmetros de custo por defeito (override por viagem em Trip).
 model Group {
-  id              String           @id @default(cuid())
-  name            String
-  createdAt       DateTime         @default(now())
-  memberships     Membership[]
-  members         Member[]
-  routes          Route[]
-  trips           Trip[]
-  payments        Payment[]
-  initialBalances InitialBalance[]
+  id                String           @id @default(cuid())
+  name              String
+  fuelPrice         Float            @default(0) // €/litro
+  totalKm           Float            @default(0) // km ida/volta
+  consumptionPer100 Float            @default(0) // litros/100km
+  tolls             Float            @default(0) // portagens €
+  avgPeople         Float            @default(1) // nº médio de pessoas
+  createdAt         DateTime         @default(now())
+  memberships       Membership[]
+  members           Member[]
+  trips             Trip[]
+  payments          Payment[]
+  initialBalances   InitialBalance[]
 }
 
 model Membership {
@@ -61,26 +67,13 @@ model Member {
   initialTo        InitialBalance[] @relation("To")
 }
 
-model Route {
-  id                String  @id @default(cuid())
-  groupId           String
-  name              String
-  fuelPrice         Float // €/litro
-  totalKm           Float // km ida/volta
-  consumptionPer100 Float // litros/100km
-  tolls             Float // portagens €
-  avgPeople         Float // nº médio de pessoas
-  group             Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  trips             Trip[]
-}
-
 model Trip {
   id      String   @id @default(cuid())
   groupId String
-  routeId String
   date    DateTime
   driverId String
-  // overrides opcionais dos parâmetros da rota (null => usa o default da rota)
+  createdByUserId String? // quem registou a boleia (login); null = histórico/seed
+  // overrides opcionais dos parâmetros do grupo (null => usa o default do grupo)
   fuelPrice         Float?
   totalKm           Float?
   consumptionPer100 Float?
@@ -89,8 +82,8 @@ model Trip {
   createdAt DateTime @default(now())
 
   group      Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  route      Route           @relation(fields: [routeId], references: [id])
   driver     Member          @relation("Driver", fields: [driverId], references: [id])
+  createdBy  User?           @relation("TripCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
   passengers TripPassenger[]
 }
 

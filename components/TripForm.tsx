@@ -5,9 +5,7 @@ import { createTripAction } from "@/app/actions/trips";
 import { SubmitButton } from "@/components/SubmitButton";
 import { RIDE_TYPES, RIDE_TYPE_KEYS } from "@/lib/constants";
 
-type RouteOpt = {
-  id: string;
-  name: string;
+type RouteParams = {
   fuelPrice: number;
   totalKm: number;
   consumptionPer100: number;
@@ -24,30 +22,20 @@ const OVERRIDE_FIELDS = [
 ] as const;
 
 export function TripForm({
-  routes,
+  group,
   members,
   today,
 }: {
-  routes: RouteOpt[];
+  group: RouteParams;
   members: { id: string; name: string }[];
   today: string;
 }) {
   const [driverId, setDriverId] = useState(members[0]?.id ?? "");
-  const [routeId, setRouteId] = useState(routes[0]?.id ?? "");
   const [custom, setCustom] = useState(false);
-  const route = routes.find((r) => r.id === routeId);
 
   return (
     <form action={createTripAction} className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-3">
-        <div>
-          <label className="label">Rota</label>
-          <select name="routeId" className="input" value={routeId} onChange={(e) => setRouteId(e.target.value)} required>
-            {routes.map((r) => (
-              <option key={r.id} value={r.id}>{r.name}</option>
-            ))}
-          </select>
-        </div>
+      <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label className="label">Data</label>
           <input name="date" type="date" defaultValue={today} className="input" required />
@@ -86,7 +74,7 @@ export function TripForm({
           <input type="checkbox" checked={custom} onChange={(e) => setCustom(e.target.checked)} />
           Personalizar parâmetros desta viagem (caso este dia tenha sido diferente)
         </label>
-        {custom && route && (
+        {custom && (
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {OVERRIDE_FIELDS.map((f) => (
               <div key={f.name}>
@@ -96,7 +84,7 @@ export function TripForm({
                   type="number"
                   step={f.step}
                   className="input"
-                  defaultValue={route[f.name]}
+                  defaultValue={group[f.name]}
                 />
               </div>
             ))}

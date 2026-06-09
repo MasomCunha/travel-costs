@@ -6,10 +6,9 @@ import { usePathname } from "next/navigation";
 const LINKS = [
   { href: "/", label: "Resumo", icon: "📊" },
   { href: "/trips", label: "Boleias", icon: "🚗" },
-  { href: "/payments", label: "Pagamentos", icon: "💶" },
   { href: "/balances", label: "Totais", icon: "🧮" },
   { href: "/history", label: "Histórico", icon: "🕓" },
-  { href: "/routes", label: "Rotas", icon: "🛣️" },
+  { href: "/routes", label: "Parâmetros", icon: "🛣️" },
   { href: "/members", label: "Membros", icon: "👥" },
 ];
 

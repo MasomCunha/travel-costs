@@ -13,7 +13,6 @@ const optNum = z
   .refine((v) => v === null || (!Number.isNaN(v) && v >= 0), "Valor inválido");
 
 const tripSchema = z.object({
-  routeId: z.string().min(1),
   date: z.string().min(1),
   driverId: z.string().min(1),
   fuelPrice: optNum,
@@ -26,7 +25,6 @@ const tripSchema = z.object({
 export async function createTripAction(formData: FormData) {
   const ctx = await requireContext();
   const parsed = tripSchema.safeParse({
-    routeId: formData.get("routeId"),
     date: formData.get("date"),
     driverId: formData.get("driverId"),
     fuelPrice: formData.get("fuelPrice") ?? undefined,
@@ -37,12 +35,11 @@ export async function createTripAction(formData: FormData) {
   });
   if (!parsed.success) return;
 
-  // valida que rota e condutor pertencem ao grupo
-  const [route, driver] = await Promise.all([
-    prisma.route.findFirst({ where: { id: parsed.data.routeId, groupId: ctx.group.id } }),
-    prisma.member.findFirst({ where: { id: parsed.data.driverId, groupId: ctx.group.id } }),
-  ]);
-  if (!route || !driver) return;
+  // valida que o condutor pertence ao grupo
+  const driver = await prisma.member.findFirst({
+    where: { id: parsed.data.driverId, groupId: ctx.group.id },
+  });
+  if (!driver) return;
 
   // passageiros: campos type_<memberId> com um tipo válido
   const groupMembers = await prisma.member.findMany({ where: { groupId: ctx.group.id } });
@@ -57,9 +54,9 @@ export async function createTripAction(formData: FormData) {
   await prisma.trip.create({
     data: {
       groupId: ctx.group.id,
-      routeId: parsed.data.routeId,
       date: new Date(parsed.data.date),
       driverId: parsed.data.driverId,
+      createdByUserId: ctx.user.id,
       fuelPrice: parsed.data.fuelPrice,
       totalKm: parsed.data.totalKm,
       consumptionPer100: parsed.data.consumptionPer100,
@@ -75,7 +72,12 @@ export async function createTripAction(formData: FormData) {
 export async function deleteTripAction(formData: FormData) {
   const ctx = await requireContext();
   const id = String(formData.get("id"));
-  await prisma.trip.deleteMany({ where: { id, groupId: ctx.group.id } });
+  // Só o criador da boleia a apaga; o dono do grupo pode apagar qualquer uma.
+  const where =
+    ctx.role === "OWNER"
+      ? { id, groupId: ctx.group.id }
+      : { id, groupId: ctx.group.id, createdByUserId: ctx.user.id };
+  await prisma.trip.deleteMany({ where });
   revalidatePath("/trips");
   revalidatePath("/");
 }

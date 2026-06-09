@@ -39,7 +39,8 @@ export async function createPaymentAction(formData: FormData) {
       note: parsed.data.note || null,
     },
   });
-  revalidatePath("/payments");
+  revalidatePath("/balances");
+  revalidatePath("/history");
   revalidatePath("/");
 }
 
@@ -71,13 +72,15 @@ export async function settleUpAction(formData: FormData) {
     },
   });
   revalidatePath("/");
-  revalidatePath("/payments");
+  revalidatePath("/balances");
+  revalidatePath("/history");
 }
 
 export async function deletePaymentAction(formData: FormData) {
   const ctx = await requireContext();
   const id = String(formData.get("id"));
   await prisma.payment.deleteMany({ where: { id, groupId: ctx.group.id } });
-  revalidatePath("/payments");
+  revalidatePath("/balances");
+  revalidatePath("/history");
   revalidatePath("/");
 }

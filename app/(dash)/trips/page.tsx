@@ -8,13 +8,12 @@ import { deleteTripAction } from "@/app/actions/trips";
 
 export default async function TripsPage() {
   const ctx = await requireContext();
-  const [routes, activeMembers, trips] = await Promise.all([
-    prisma.route.findMany({ where: { groupId: ctx.group.id }, orderBy: { name: "asc" } }),
+  const [activeMembers, trips] = await Promise.all([
     prisma.member.findMany({ where: { groupId: ctx.group.id, active: true }, orderBy: { name: "asc" } }),
     prisma.trip.findMany({
       where: { groupId: ctx.group.id },
       orderBy: { date: "desc" },
-      include: { route: true, driver: true, passengers: { include: { passenger: true } } },
+      include: { driver: true, passengers: { include: { passenger: true } } },
     }),
   ]);
 
@@ -26,16 +25,12 @@ export default async function TripsPage() {
 
       <section className="card">
         <h2 className="mb-3 font-semibold">Registar nova boleia</h2>
-        {routes.length === 0 ? (
-          <p className="text-sm text-slate-500">
-            Primeiro cria uma <Link href="/routes" className="text-brand-600 hover:underline">rota</Link>.
-          </p>
-        ) : activeMembers.length < 2 ? (
+        {activeMembers.length < 2 ? (
           <p className="text-sm text-slate-500">
             Precisas de pelo menos 2 <Link href="/members" className="text-brand-600 hover:underline">membros</Link> ativos.
           </p>
         ) : (
-          <TripForm routes={routes} members={activeMembers} today={today} />
+          <TripForm group={ctx.group} members={activeMembers} today={today} />
         )}
       </section>
 
@@ -46,7 +41,6 @@ export default async function TripsPage() {
             <thead>
               <tr className="border-b border-slate-200 text-left text-slate-500">
                 <th className="py-2 pr-3">Data</th>
-                <th className="py-2 pr-3">Rota</th>
                 <th className="py-2 pr-3">Condutor</th>
                 <th className="py-2 pr-3">Passageiros</th>
                 <th className="py-2 pr-3">€/pessoa</th>
@@ -57,7 +51,6 @@ export default async function TripsPage() {
               {trips.map((t) => (
                 <tr key={t.id} className="border-b border-slate-100 align-top">
                   <td className="py-2 pr-3 whitespace-nowrap">{formatDate(t.date)}</td>
-                  <td className="py-2 pr-3">{t.route.name}</td>
                   <td className="py-2 pr-3 font-medium">{t.driver.name}</td>
                   <td className="py-2 pr-3">
                     <div className="flex flex-wrap gap-1">
@@ -68,17 +61,19 @@ export default async function TripsPage() {
                       ))}
                     </div>
                   </td>
-                  <td className="py-2 pr-3 whitespace-nowrap">{eur(tripValuePerPerson(t))}</td>
+                  <td className="py-2 pr-3 whitespace-nowrap">{eur(tripValuePerPerson(t, ctx.group))}</td>
                   <td className="py-2">
-                    <form action={deleteTripAction}>
-                      <input type="hidden" name="id" value={t.id} />
-                      <button className="text-xs text-red-600 hover:underline" type="submit">apagar</button>
-                    </form>
+                    {(ctx.role === "OWNER" || t.createdByUserId === ctx.user.id) && (
+                      <form action={deleteTripAction}>
+                        <input type="hidden" name="id" value={t.id} />
+                        <button className="text-xs text-red-600 hover:underline" type="submit">apagar</button>
+                      </form>
+                    )}
                   </td>
                 </tr>
               ))}
               {trips.length === 0 && (
-                <tr><td colSpan={6} className="py-4 text-center text-slate-400">Sem boleias registadas.</td></tr>
+                <tr><td colSpan={5} className="py-4 text-center text-slate-400">Sem boleias registadas.</td></tr>
               )}
             </tbody>
           </table>

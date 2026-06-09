@@ -13,7 +13,8 @@ override por viagem).
 ## Stack
 
 - **Next.js 15** (App Router, Server Components + Server Actions) + **TypeScript**
-- **Prisma** + **PostgreSQL** (local via `docker compose up -d`; produção: Render Postgres)
+- **Prisma** + **PostgreSQL** (local via `docker compose up -d`; produção: Postgres
+  externo — **Neon** — porque o free tier do Render só dá uma BD gerida por conta)
 - **Auth.js (NextAuth v5)** — Credentials (email+password, bcrypt), sessão JWT, `trustHost`
 - **Tailwind CSS** (sem dependência de UI externa)
 - **Zod** para validação nas server actions
@@ -32,6 +33,10 @@ npm run db:studio      # Prisma Studio
 ```
 
 Deploy: Render Blueprint em [render.yaml](render.yaml) — ver [README.md](README.md).
+O Blueprint **não provisiona** base de dados (free tier do Render limitado a uma BD por
+conta). O `DATABASE_URL` é definido **manualmente** no dashboard do Render (Environment),
+apontando para um Postgres externo gratuito (Neon/Supabase). As migrações são aplicadas no
+arranque pelo `startCommand` (`prisma migrate deploy`); o seed é manual e corre uma vez.
 
 Login demo (após seed): **demo@opt.pt** / **demo1234** (ligado ao membro "Márcio").
 

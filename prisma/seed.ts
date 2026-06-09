@@ -29,7 +29,6 @@ async function main() {
   await prisma.trip.deleteMany();
   await prisma.payment.deleteMany();
   await prisma.initialBalance.deleteMany();
-  await prisma.route.deleteMany();
   await prisma.member.deleteMany();
   await prisma.membership.deleteMany();
   await prisma.group.deleteMany();
@@ -41,8 +40,11 @@ async function main() {
     data: { email: "demo@opt.pt", name: "Márcio (demo)", phone: "910000000", passwordHash },
   });
 
-  // Grupo
-  const group = await prisma.group.create({ data: { name: "Boleias OPT" } });
+  // Grupo (é a rota: herda os parâmetros de custo da rota do Excel)
+  const { name: _routeName, ...routeParams } = data.routes[0];
+  const group = await prisma.group.create({
+    data: { name: "Boleias OPT", ...routeParams },
+  });
   await prisma.membership.create({
     data: { userId: user.id, groupId: group.id, role: "OWNER" },
   });
@@ -62,14 +64,6 @@ async function main() {
     memberByName.set(name, m.id);
   }
 
-  // Rotas
-  const routeByName = new Map<string, string>();
-  for (const r of data.routes) {
-    const route = await prisma.route.create({ data: { groupId: group.id, ...r } });
-    routeByName.set(r.name, route.id);
-  }
-  const defaultRouteId = routeByName.values().next().value!;
-
   // Viagens
   for (const t of data.trips) {
     const driverId = memberByName.get(t.driver);
@@ -77,7 +71,6 @@ async function main() {
     await prisma.trip.create({
       data: {
         groupId: group.id,
-        routeId: defaultRouteId,
         date: new Date(t.date),
         driverId,
         passengers: {
@@ -108,7 +101,7 @@ async function main() {
 
   console.log(
     `Seed OK: utilizador demo@opt.pt / demo1234 · ${data.members.length} membros · ` +
-      `${data.routes.length} rota(s) · ${data.trips.length} viagens · ${data.payments.length} pagamentos`
+      `${data.trips.length} viagens · ${data.payments.length} pagamentos`
   );
 }
 

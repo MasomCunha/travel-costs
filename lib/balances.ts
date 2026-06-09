@@ -2,20 +2,30 @@ import "server-only";
 import { prisma } from "@/lib/db";
 import { RIDE_TYPES, type RideType } from "@/lib/constants";
 
-// Parâmetros efetivos de uma viagem (override da viagem ?? default da rota).
-export function tripValuePerPerson(trip: {
-  fuelPrice: number | null;
-  totalKm: number | null;
-  consumptionPer100: number | null;
-  tolls: number | null;
-  avgPeople: number | null;
-  route: { fuelPrice: number; totalKm: number; consumptionPer100: number; tolls: number; avgPeople: number };
-}): number {
-  const fuelPrice = trip.fuelPrice ?? trip.route.fuelPrice;
-  const totalKm = trip.totalKm ?? trip.route.totalKm;
-  const consumption = trip.consumptionPer100 ?? trip.route.consumptionPer100;
-  const tolls = trip.tolls ?? trip.route.tolls;
-  const avgPeople = trip.avgPeople ?? trip.route.avgPeople;
+export type RouteParams = {
+  fuelPrice: number;
+  totalKm: number;
+  consumptionPer100: number;
+  tolls: number;
+  avgPeople: number;
+};
+
+// Parâmetros efetivos de uma viagem (override da viagem ?? default do grupo).
+export function tripValuePerPerson(
+  trip: {
+    fuelPrice: number | null;
+    totalKm: number | null;
+    consumptionPer100: number | null;
+    tolls: number | null;
+    avgPeople: number | null;
+  },
+  group: RouteParams
+): number {
+  const fuelPrice = trip.fuelPrice ?? group.fuelPrice;
+  const totalKm = trip.totalKm ?? group.totalKm;
+  const consumption = trip.consumptionPer100 ?? group.consumptionPer100;
+  const tolls = trip.tolls ?? group.tolls;
+  const avgPeople = trip.avgPeople ?? group.avgPeople;
   if (!avgPeople) return 0;
   return ((consumption / 100) * totalKm * fuelPrice + tolls) / avgPeople;
 }
@@ -59,11 +69,12 @@ function addOwe(owes: Map<string, Map<string, Debt>>, from: string, to: string, 
 
 // Carrega o grupo e calcula todos os saldos direcionados.
 export async function computeGroupBalances(groupId: string): Promise<GroupBalances> {
-  const [members, trips, payments, initial] = await Promise.all([
+  const [group, members, trips, payments, initial] = await Promise.all([
+    prisma.group.findUniqueOrThrow({ where: { id: groupId } }),
     prisma.member.findMany({ where: { groupId }, orderBy: { name: "asc" } }),
     prisma.trip.findMany({
       where: { groupId },
-      include: { route: true, passengers: true },
+      include: { passengers: true },
     }),
     prisma.payment.findMany({ where: { groupId } }),
     prisma.initialBalance.findMany({ where: { groupId } }),
@@ -84,7 +95,7 @@ export async function computeGroupBalances(groupId: string): Promise<GroupBalanc
   for (const trip of trips) {
     perMember.get(trip.driverId)?.tripsAsDriver !== undefined &&
       (perMember.get(trip.driverId)!.tripsAsDriver += 1);
-    const value = tripValuePerPerson(trip);
+    const value = tripValuePerPerson(trip, group);
     for (const p of trip.passengers) {
       const meta = RIDE_TYPES[p.type as RideType];
       if (!meta) continue;
